@@ -270,559 +270,581 @@
             <div style="color: white; margin-top: 10px;">برای زوم از چرخ موس استفاده کنید · دوبار کلیک برای ریست</div>
         </div>
     </div>
+<script>
+// =================== داده‌ها ===================
+const GROUP_A = ['اسنپ کب','اسنپ باکس','اسنپ فود','اسنپ پی','اسنپ مارکت','اسنپ تریپ','اسنپ کیچن','اسنپ شاپ','اسنپ اکسپرس'];
 
-    <script>
-        // =================== داده‌ها ===================
-        const GROUP_A = ['اسنپ کب','اسنپ باکس','اسنپ فود','اسنپ پی','اسنپ مارکت','اسنپ تریپ','اسنپ کیچن','اسنپ شاپ','اسنپ اکسپرس'];
+// لینک‌های مستقیم لوگوها
+const ventureLogos = {
+    'اسنپ کب': 'https://drive.google.com/thumbnail?id=1_rT2rKZ06oXseqSqZHemln9dBEivHVMU&sz=w400',
+    'اسنپ باکس': 'https://drive.google.com/thumbnail?id=1lTmpJUvcNW0Io3e79U2dbodPz2HvCuNM&sz=w400',
+    'اسنپ اکسپرس': 'https://drive.google.com/thumbnail?id=1ytsL_CVFzBAE_ohSiPzr75Tw2kDuy0y2&sz=w400',
+    'اسنپ ساپلای': 'https://drive.google.com/thumbnail?id=1vOGsTSFW0O8uhWpNwmpiKReFa6G98c29&sz=w400',
+    'اسنپ مارکت': 'https://drive.google.com/thumbnail?id=1u4r52ixzD1gIaN9enpFItm-8ps57bKRk&sz=w400',
+    'اسنپ فود': 'https://drive.google.com/thumbnail?id=1t-E70MPJskoxNzRQIOrum8L7XuPHJVCM&sz=w400',
+    'اسنپ پی': 'https://drive.google.com/thumbnail?id=1iGZJAImMjMmlvLYdeRBcb3Er-ExyMwZ7&sz=w400',
+    'اسنپ گروه': 'https://drive.google.com/thumbnail?id=1hmDZtxLHpiS4DwkyAir2Uq16L3YmMLdW&sz=w400',
+    'اسنپ استور': 'https://drive.google.com/thumbnail?id=1dOxdRDj2MFMj9dm5T6UcFuv9IwmcMuGx&sz=w400',
+    'اسنپ تریپ': 'https://drive.google.com/thumbnail?id=1b1mbojFsj14ut9Du3VT6r6O9hO37nzNU&sz=w400',
+    'اسنپ دکتر': 'https://drive.google.com/thumbnail?id=1UwV6ONXEitcpeZGJIhPTiJQmIBE1zLuq&sz=w400',
+    'اسنپ شاپ': 'https://drive.google.com/thumbnail?id=1E8NduHg1WM8kaqkMVqGrDDOQDHxSUQFq&sz=w400',
+    'اسنپ کیچن': 'https://drive.google.com/thumbnail?id=1CFjWd2aZRR4V1WjuMiWR_JdVnb5ZRXao&sz=w400'
+};
+
+// نقش‌های تأییدکنندگان جدید با شماره‌گذاری (اضافه شدن 2 نقش جدید)
+const APPROVER_ROLES = [
+    'مدیر واحد درخواست دهنده',
+    'مدیر تامین گروه', 
+    'مدیر مالی/بودجه',
+    'مدیر ارشد اجرایی ونچر (MD)',
+    'مدیر عامل قانونی ونچر',
+    'مدیر مالی گروه',
+    'مدیر ارشد اجرایی گروه'
+];
+
+// هدرهای معاملات
+const TRANSACTION_HEADERS = [
+    'معاملات خرد',
+    'معاملات کوچک', 
+    'معاملات متوسط',
+    'معاملات بزرگ',
+    'معاملات راهبردی',
+    'معاملات راهبردی'
+];
+
+// کدهای ونچرها برای عنوان
+const ventureTitles = {
+    'اسنپ کب': 'SnappCab - P2P Process',
+    'اسنپ باکس': 'SnappBox - P2P Process',
+    'اسنپ فود': 'SnappFood - P2P Process',
+    'اسنپ شاپ': 'SnappShop - P2P Process',
+    'اسنپ کیچن': 'SnappKitchen - P2P Process',
+    'اسنپ مارکت': 'SnappMarket - P2P Process',
+    'اسنپ تریپ': 'SnappTrip - P2P Process',
+    'اسنپ پی': 'SnappPay - P2P Process',
+    'اسنپ استور': 'SnappStore - P2P Process',
+    'اسنپ دکتر': 'SnappDoctor - P2P Process',
+    'اسنپ ساپلای': 'SnappSupply - P2P Process',
+    'اسنپ گروه': 'SnappGroup - P2P Process',
+    'اسنپ اکسپرس': 'SnappExpress - P2P Process'
+};
+
+// کدهای ونچرها برای سابجکت ایمیل
+const ventureCodes = {
+    'اسنپ کب': 'Cab',
+    'اسنپ باکس': 'Box',
+    'اسنپ فود': 'Food',
+    'اسنپ شاپ': 'Shop',
+    'اسنپ کیچن': 'Kitchen',
+    'اسنپ مارکت': 'Market',
+    'اسنپ تریپ': 'Trip',
+    'اسنپ پی': 'Pay',
+    'اسنپ استور': 'Store',
+    'اسنپ دکتر': 'Doctor',
+    'اسنپ ساپلای': 'Supply',
+    'اسنپ گروه': 'Group',
+    'اسنپ اکسپرس': 'Express'
+};
+
+// لینک‌های نمودار فرآیند از گوگل درایو
+// ================================
+// لینک نمودار گروه A را اینجا قرار دهید:
+const FLOWCHART_GROUP_A = 'https://drive.google.com/thumbnail?id=1bsqgOA89mEOYuphShf_Ah3F0JT0ajsMe&sz=w2000';
+
+// لینک نمودار گروه B را اینجا قرار دهید:
+const FLOWCHART_GROUP_B = 'https://drive.google.com/thumbnail?id=1bsqgOA89mEOYuphShf_Ah3F0JT0ajsMe&sz=w2000';
+// ================================
+
+// انواع درخواست‌ها
+const requestTypes = ['IT', 'Marketing', 'Services', 'Real State'];
+
+// دپارتمان‌های درخواست کننده
+const departments = ['Tech', 'HR', 'Finance', 'Operations', 'Sales', 'Legal'];
+
+// اولویت‌های درخواست
+const priorities = ['Urgent', 'Regular'];
+
+// سطوح تأیید گروه A
+const AMOUNTS_A = [
+    { title: 'تا ۴۰۰ میلیون ریال', approvers: ['مدیر واحد درخواست دهنده'] },
+    { title: '۴۰۰ میلیون تا ۱ میلیارد ریال', approvers: ['مدیر واحد درخواست دهنده', 'مدیر تامین گروه'] },
+    { title: '۱ تا ۴ میلیارد ریال', approvers: ['مدیر واحد درخواست دهنده', 'مدیر تامین گروه','مدیر مالی/بودجه','مدیر ارشد اجرایی ونچر (MD)'] },
+    { title: '۴ تا ۲۰ میلیارد ریال', approvers: ['مدیر واحد درخواست دهنده', 'مدیر تامین گروه','مدیر مالی/بودجه','مدیر ارشد اجرایی ونچر (MD)','مدیر عامل قانونی ونچر'] },
+    { title: '۲۰ تا ۱۰۰ میلیارد ریال', approvers: ['مدیر واحد درخواست دهنده', 'مدیر تامین گروه','مدیر مالی گروه/بودجه','مدیر ارشد اجرایی ونچر (MD)'] },
+    { title: 'بالای ۱۰۰ میلیارد ریال', approvers: ['مدیر واحد درخواست دهنده', 'مدیر تامین گروه','مدیر مالی گروه/بودجه','مدیر ارشد اجرایی ونچر (MD)','مدیر ارشد اجرایی گروه'] } // تغییر اول به مدیر واحد درخواست دهنده
+    ];
+
+// سطوح تأیید گروه B (با تغییرات برای اسنپ گروپ)
+const AMOUNTS_B = [
+    { title: 'تا ۲۰۰ میلیون ریال', approvers: ['مدیر واحد درخواست دهنده'] },
+    { title: '۲۰۰ تا ۵۰۰ میلیون ریال', approvers: ['مدیر واحد درخواست دهنده', 'مدیر تامین گروه'] },
+    { title: '۵۰۰ میلیون تا ۲ میلیارد ریال', approvers: ['مدیر واحد درخواست دهنده', 'مدیر تامین گروه','مدیر مالی/بودجه','مدیر ارشد اجرایی ونچر (MD)'] },
+    { title: '۲ تا ۱۰ میلیارد ریال', approvers: ['مدیر واحد درخواست دهنده', 'مدیر تامین گروه','مدیر مالی/بودجه','مدیر ارشد اجرایی ونچر (MD)','مدیر عامل قانونی ونچر'] },
+    { title: '۱۰ تا ۱۰۰ میلیارد ریال', approvers: ['مدیر واحد درخواست دهنده', 'مدیر تامین گروه','مدیر مالی گروه/بودجه','مدیر ارشد اجرایی ونچر (MD)'] },
+    { title: 'بالای ۱۰۰ میلیارد ریال', approvers: ['مدیر واحد درخواست دهنده', 'مدیر تامین گروه','مدیر مالی گروه/بودجه','مدیر ارشد اجرایی ونچر (MD)','مدیر ارشد اجرایی گروه'] } // تغییر اول به مدیر واحد درخواست دهنده
+    ];
+
+// سطوح تأیید مخصوص اسنپ گروپ
+const AMOUNTS_SNAPP_GROUP = [
+    { title: 'تا ۲۰۰ میلیون ریال', approvers: ['مدیر واحد درخواست دهنده'] },
+    { title: '۲۰۰ تا ۵۰۰ میلیون ریال', approvers: ['مدیر واحد درخواست دهنده', 'مدیر تامین گروه'] },
+    { title: '۵۰۰ میلیون تا ۲ میلیارد ریال', approvers: ['مدیر واحد درخواست دهنده', 'مدیر تامین گروه', 'مدیر مالی/بودجه'] }, // حذف مدیر ارشد اجرایی ونچر
+    { title: '۲ تا ۱۰ میلیارد ریال', approvers: ['مدیر واحد درخواست دهنده', 'مدیر تامین گروه', 'مدیر مالی/بودجه', 'مدیر ارشد اجرایی ونچر (MD)'] }, // حذف جلال قارائی
+    { title: '۱۰ تا ۱۰۰ میلیارد ریال', approvers: ['مدیر واحد درخواست دهنده', 'مدیر تامین گروه', 'مدیر مالی گروه', 'مدیر ارشد اجرایی ونچر (MD)'] },
+    { title: 'بالای ۱۰۰ میلیارد ریال', approvers: ['مدیر واحد درخواست دهنده', 'مدیر تامین گروه', 'مدیر مالی گروه', 'مدیر ارشد اجرایی گروه'] } // تغییر اول به مدیر واحد درخواست دهنده
+    ];
+// اسم تأییدکنندگان اختصاصی هر ونچر (مدیر دپارتمان خالی، مابقی پر)
+const topApproversByVenture = {
+    // گروه A
+    'اسنپ کب': ['', 'امیررضا عطاری','جلال قارائی/سجاد صفری','محمد خلج قاسم آبادی','محمود فوز (CEO)/ محمد خلج قاسم آبادی', 'Kate Cully', 'Eyad / Mahmoud'],
+    'اسنپ باکس': ['', 'امیررضا عطاری','جلال قارائی/معصومه بروزی','کسری صادقی زاده','دانیال نقوی (CEO)/ کسری صادقی زاده', 'Kate Cully', 'Eyad / Mahmoud'],
+    'اسنپ فود': ['', 'نیما احسانی','هادی یحیوی','سعید لطفی','سعید لطفی (CEO)/ مهراد عبدالرزاق', 'Kate Cully', 'Eyad / Mahmoud'],
+    'اسنپ شاپ': ['', 'امیررضا عطاری','سهیل فرهودی','امین سمیعی','امین سمیعی (CEO)/ سهیل فرهودی', 'Kate Cully', 'Eyad / Mahmoud'],
+    'اسنپ کیچن': ['', 'امیررضا عطاری','نسرین شیرازی','کتایون شکوری','کتایون شکوری (CEO)/ آرمان وفاجو', 'Kate Cully', 'Eyad / Mahmoud'],
+    'اسنپ مارکت': ['', 'امیررضا عطاری','امین عسکری','پویا رستگار','پویا رستگار (CEO)/ رامین لایقی', 'Kate Cully', 'Eyad / Mahmoud'],
+    'اسنپ تریپ': ['', 'امیررضا عطاری','سهیل فرهودی','فرید یکانی','فرید یکانی (CEO)/ صبا مرتضوی', 'Kate Cully', 'Eyad / Mahmoud'],
+    'اسنپ پی': ['', 'امیررضا عطاری','احسان رحمانی نیا/امیرحسین درخشانی','مجید حسامی','مجید حسامی(CEO)/ احمد کازرونی', 'Kate Cully', 'Eyad / Mahmoud'],
+    'اسنپ اکسپرس': ['', 'امیررضا عطاری','امین عسکری','پویا رستگار','پویا رستگار(CEO)/رامین لایقی', 'Kate Cully', 'Eyad / Mahmoud'],
+
+    // گروه B
+    'اسنپ استور': ['', 'امیررضا عطاری','فرناز هراتیان','نوید خدیوی','', 'Kate Cully', 'Eyad / Mahmoud'],
+    'اسنپ دکتر': ['', 'امیررضا عطاری','فرناز هراتیان','نوید آئینه','محمدرضا ماهرنیا', 'Kate Cully', 'Eyad / Mahmoud'],
+    'اسنپ ساپلای': ['', 'امیررضا عطاری','پدرام صادقی','عرفان غفاریان','مهدی حمدی', 'Kate Cully', 'Eyad / Mahmoud'],
+    'اسنپ گروه': ['', 'امیررضا عطاری','فرناز هراتیان','جلال قارائی','جلال قارائی', 'Kate Cully', 'Eyad / Mahmoud'],
+};
+
+// ونچرهایی که باید "مدیر مالی/بودجه" داشته باشند
+const BUDGET_MANAGER_VENTURES = ['اسنپ کب', 'اسنپ باکس', 'اسنپ پی'];
+
+// داده‌های نمونه ایمیل استاندارد
+const emailTemplates = {
+    'default': {
+        body: 'با سلام\n\nاین ایمیل جهت درخواست خرید برای [نام ونچر] ارسال می‌گردد.\n\nجزئیات درخواست:\n- کالا/خدمت: [نام کالا یا خدمت]\n- مشخصات فنی: [برند، مدل، پارت نامبر، رنگ و ...]\n-  لینک مربوط به کالا\n- مقدار: [مقدار]\n- مبلغ تخمینی: [مبلغ]\n\nدر صورت عدم موجودی مدل درخواستی، مدل پیشنهادی تیم تامین جهت بررسی درخواست اعلام گردد.\n\n----\n\nلطفاً این درخواست را بررسی و تأیید فرمایید.\n\nبا تشکر',
+        approvers: 'مدیر دپارتمان درخواست دهنده و پس از آن مدیر بودجه (درصورتی که آن ونچر مدیر بودجه داشته باشد)',
+        notes: 'با توجه به فلوچارت، باید اول درخواست برای مدیر دپارتمان ارسال شود.\nبعد از تایید مدیر دپارتمان و مدیر بودجه (در صورتی که آن ونچر مدیر بودجه داشته باشد)، SLA خرید تیم تامین آغاز خواهد شد.\n\nایمیل تیم تامین:\nProcurementTeam@Snapp.Cab\n\nنکته 1: خواهشمند است ایمیل ها در قالب استاندارد درخواست شده ارسال گردد تا در اسرع وقت پروسه خرید مطابق استاندارد آغاز شود.\nنکته 2: جهت شفاف تر شدن درخواست، لازم است تا فایل LOM درخواست در ایمیل مربوطه بارگزاری شود.'
+    }
+};
+
+// داده‌های مناقصات
+const tenderInfo = {
+    'groupA': {
+        threshold: 'بالای 4 میلیارد ریال',
+        process: 'برای خریدهای بالای 4 میلیارد ریال ریال، فرآیند مناقصه الزامی است. این فرآیند شامل:\n1. تهیه اسناد مناقصه(LOM) توسط واحد درخواست دهنده\n2. نهایی سازی LOM توسط واحد تامین (لزوم عقد قرارداد، تضامین و ...)\n3. بارگزاری اسناد مناقصه در سامانه مناقصات جهت اخذ استعلام\n4. اطلاع رسانی عمومی\n5. دریافت پیشنهاد ها\n6. ارزیابی فنی (در صورت نیاز) \n7. ارزیابی قیمتی\n8. انتخاب برنده\n9. اطلاع رسانی نتیجه مناقصه به تامین کننده و واحد درخواست دهنده\n\nمی‌باشد.',
+        conditions: 'مناقصه باید از لیست تامین کنندگان مورد تایید تیم تامین گروه باشد.'
+    },
+    'groupB': {
+        threshold: 'بالای 2 میلیارد ریال',
+        process: 'برای خریدهای بالای 2 میلیارد ریال، فرآیند مناقصه الزامی است. این فرآیند شامل:\n1. تهیه اسناد مناقصه(LOM) توسط واحد درخواست دهنده\n2. نهایی سازی LOM توسط واحد تامین (لزوم عقد قرارداد، تضامین و ...\n3. بارگزاری اسناد مناقصه در سامانه مناقصات جهت اخذ استعلام\n4. اطلاع رسانی عمومی\n5. دریافت پیشنهاد ها\n6. ارزیابی فنی (در صورت نیاز) \n7. ارزیابی قیمتی\n8. انتخاب برنده\n9. اطلاع رسانی نتیجه مناقصه به تامین کننده و واحد درخواست دهنده\n\nمی‌باشد.',
+        conditions: 'مناقصه میبایست از میان لیست تامین کنندگان مورد تایید تیم تامین مرکزی برگزار شود.'
+    }
+};
+
+// =================== مقداردهی اولیه ===================
+const venturesGrid = document.getElementById('venturesGrid');
+const ventureModal = document.getElementById('ventureModal');
+const flowModal = document.getElementById('flowModal');
+const closeBtns = document.querySelectorAll('.close-btn');
+const flowCloseBtn = document.querySelector('.flow-close-btn');
+const tabs = document.querySelectorAll('.tab');
+const tabContents = document.querySelectorAll('.tab-content');
+
+const modalTitle = document.getElementById('modalTitle');
+const ventureNameTitle = document.getElementById('ventureNameTitle');
+const approversList = document.getElementById('approversList');
+const amountsSection = document.getElementById('amountsSection');
+const groupNote = document.getElementById('groupNote');
+const flowImage = document.getElementById('flowImage');
+const viewFlowBtn = document.getElementById('viewFlowBtn');
+const emailDetails = document.getElementById('emailDetails');
+const tenderDetails = document.getElementById('tenderDetails');
+
+// ایجاد کارت‌های ونچر با لوگو
+function initializeVentureCards() {
+    const ventures = [
+        'اسنپ کب', 'اسنپ باکس', 'اسنپ فود', 'اسنپ شاپ', 
+        'اسنپ کیچن', 'اسنپ مارکت', 'اسنپ تریپ', 'اسنپ پی','اسنپ اکسپرس',
+        'اسنپ استور', 'اسنپ دکتر', 'اسنپ ساپلای', 'اسنپ گروه'
+    ];
+
+    ventures.forEach(venture => {
+        const card = document.createElement('div');
+        card.className = 'venture-card';
+        card.dataset.venture = venture;
         
-        // لینک‌های مستقیم لوگوها
-        const ventureLogos = {
-            'اسنپ کب': 'https://drive.google.com/thumbnail?id=1_rT2rKZ06oXseqSqZHemln9dBEivHVMU&sz=w400',
-            'اسنپ باکس': 'https://drive.google.com/thumbnail?id=1lTmpJUvcNW0Io3e79U2dbodPz2HvCuNM&sz=w400',
-            'اسنپ اکسپرس': 'https://drive.google.com/thumbnail?id=1ytsL_CVFzBAE_ohSiPzr75Tw2kDuy0y2&sz=w400',
-            'اسنپ ساپلای': 'https://drive.google.com/thumbnail?id=1vOGsTSFW0O8uhWpNwmpiKReFa6G98c29&sz=w400',
-            'اسنپ مارکت': 'https://drive.google.com/thumbnail?id=1u4r52ixzD1gIaN9enpFItm-8ps57bKRk&sz=w400',
-            'اسنپ فود': 'https://drive.google.com/thumbnail?id=1t-E70MPJskoxNzRQIOrum8L7XuPHJVCM&sz=w400',
-            'اسنپ پی': 'https://drive.google.com/thumbnail?id=1iGZJAImMjMmlvLYdeRBcb3Er-ExyMwZ7&sz=w400',
-            'اسنپ گروه': 'https://drive.google.com/thumbnail?id=1hmDZtxLHpiS4DwkyAir2Uq16L3YmMLdW&sz=w400',
-            'اسنپ استور': 'https://drive.google.com/thumbnail?id=1dOxdRDj2MFMj9dm5T6UcFuv9IwmcMuGx&sz=w400',
-            'اسنپ تریپ': 'https://drive.google.com/thumbnail?id=1b1mbojFsj14ut9Du3VT6r6O9hO37nzNU&sz=w400',
-            'اسنپ دکتر': 'https://drive.google.com/thumbnail?id=1UwV6ONXEitcpeZGJIhPTiJQmIBE1zLuq&sz=w400',
-            'اسنپ شاپ': 'https://drive.google.com/thumbnail?id=1E8NduHg1WM8kaqkMVqGrDDOQDHxSUQFq&sz=w400',
-            'اسنپ کیچن': 'https://drive.google.com/thumbnail?id=1CFjWd2aZRR4V1WjuMiWR_JdVnb5ZRXao&sz=w400'
+        const logo = document.createElement('img');
+        logo.className = 'venture-logo';
+        logo.src = ventureLogos[venture];
+        logo.alt = venture;
+        logo.onerror = function() {
+            this.style.display = 'none';
+            const fallbackText = document.createElement('h3');
+            fallbackText.textContent = venture;
+            card.appendChild(fallbackText);
         };
-
-        // نقش‌های تأییدکنندگان جدید با شماره‌گذاری
-        const APPROVER_ROLES = [
-            'مدیر دپارتمان واحد درخواست دهنده',
-            'مدیر تامین گروه', 
-            'مدیر مالی/بودجه',
-            'مدیر ارشد اجرایی ونچر (MD)',
-            'مدیر عامل قانونی ونچر'
-        ];
-
-        // هدرهای معاملات
-        const TRANSACTION_HEADERS = [
-            'معاملات خرد',
-            'معاملات کوچک', 
-            'معاملات متوسط',
-            'معاملات بزرگ',
-            'معاملات راهبردی',
-            'معاملات راهبردی'
-        ];
-
-        // کدهای ونچرها برای عنوان
-        const ventureTitles = {
-            'اسنپ کب': 'SnappCab - P2P Process',
-            'اسنپ باکس': 'SnappBox - P2P Process',
-            'اسنپ فود': 'SnappFood - P2P Process',
-            'اسنپ شاپ': 'SnappShop - P2P Process',
-            'اسنپ کیچن': 'SnappKitchen - P2P Process',
-            'اسنپ مارکت': 'SnappMarket - P2P Process',
-            'اسنپ تریپ': 'SnappTrip - P2P Process',
-            'اسنپ پی': 'SnappPay - P2P Process',
-            'اسنپ استور': 'SnappStore - P2P Process',
-            'اسنپ دکتر': 'SnappDoctor - P2P Process',
-            'اسنپ ساپلای': 'SnappSupply - P2P Process',
-            'اسنپ گروه': 'SnappGroup - P2P Process',
-            'اسنپ اکسپرس': 'SnappExpress - P2P Process'
-        };
-
-        // کدهای ونچرها برای سابجکت ایمیل
-        const ventureCodes = {
-            'اسنپ کب': 'Cab',
-            'اسنپ باکس': 'Box',
-            'اسنپ فود': 'Food',
-            'اسنپ شاپ': 'Shop',
-            'اسنپ کیچن': 'Kitchen',
-            'اسنپ مارکت': 'Market',
-            'اسنپ تریپ': 'Trip',
-            'اسنپ پی': 'Pay',
-            'اسنپ استور': 'Store',
-            'اسنپ دکتر': 'Doctor',
-            'اسنپ ساپلای': 'Supply',
-            'اسنپ گروه': 'Group',
-            'اسنپ اکسپرس': 'Express'
-        };
-
-        // لینک‌های نمودار فرآیند از گوگل درایو
-        // ================================
-        // لینک نمودار گروه A را اینجا قرار دهید:
-        const FLOWCHART_GROUP_A = 'YOUR_GROUP_A_FLOWCHART_LINK_HERE';
         
-        // لینک نمودار گروه B را اینجا قرار دهید:
-        const FLOWCHART_GROUP_B = 'YOUR_GROUP_B_FLOWCHART_LINK_HERE';
-        // ================================
-
-        // انواع درخواست‌ها
-        const requestTypes = ['IT', 'Marketing', 'Services', 'Real State'];
+        const title = document.createElement('h3');
+        title.textContent = venture;
         
-        // دپارتمان‌های درخواست کننده
-        const departments = ['Tech', 'HR', 'Finance', 'Operations', 'Sales', 'Legal'];
+        card.appendChild(logo);
+        card.appendChild(title);
+        venturesGrid.appendChild(card);
+    });
+}
+
+// مدیریت تب‌ها
+tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        const tabId = tab.dataset.tab;
         
-        // اولویت‌های درخواست
-        const priorities = ['Urgent', 'Regular'];
+        // غیرفعال کردن همه تب‌ها
+        tabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        
+        // فعال کردن تب انتخاب شده
+        tab.classList.add('active');
+        document.getElementById(`${tabId}-tab`).classList.add('active');
+    });
+});
 
-        // سطوح تأیید گروه A
-        const AMOUNTS_A = [
-            { title: 'تا ۴۰۰ میلیون ریال', approvers: ['مدیر دپارتمان واحد درخواست دهنده'] },
-            { title: '۴۰۰ میلیون تا ۱ میلیارد ریال', approvers: ['مدیر دپارتمان واحد درخواست دهنده', 'مدیر تامین گروه'] },
-            { title: '۱ تا ۴ میلیارد ریال', approvers: ['مدیر دپارتمان واحد درخواست دهنده', 'مدیر تامین گروه','مدیر مالی/بودجه','مدیر ارشد اجرایی ونچر (MD)'] },
-            { title: '۴ تا ۲۰ میلیارد ریال', approvers: ['مدیر دپارتمان واحد درخواست دهنده', 'مدیر تامین گروه','مدیر مالی/بودجه','مدیر ارشد اجرایی ونچر (MD)','مدیر عامل قانونی ونچر'] },
-            { title: '۲۰ تا ۱۰۰ میلیارد ریال', approvers: ['مدیر تامین گروه','مدیر مالی گروه/بودجه','مدیر ارشد اجرایی ونچر (MD)'] },
-            { title: 'بالای ۱۰۰ میلیارد ریال', approvers: ['مدیر تامین گروه','مدیر مالی گروه/بودجه','مدیر ارشد اجرایی ونچر (MD)','مدیر ارشد اجرایی گروه'] }
-        ];
+// =================== انتخاب کارت و باز کردن Modal ===================
+document.addEventListener('click', (e) => {
+    if (e.target.closest('.venture-card')) {
+        const card = e.target.closest('.venture-card');
+        const ventureName = card.dataset.venture;
+        const isGroupA = GROUP_A.includes(ventureName);
+        const ventureCode = ventureCodes[ventureName];
 
-        // سطوح تأیید گروه B
-        const AMOUNTS_B = [
-            { title: 'تا ۲۰۰ میلیون ریال', approvers: ['مدیر دپارتمان واحد درخواست دهنده'] },
-            { title: '۲۰۰ تا ۵۰۰ میلیون ریال', approvers: ['مدیر دپارتمان واحد درخواست دهنده', 'مدیر تامین گروه'] },
-            { title: '۵۰۰ میلیون تا ۲ میلیارد ریال', approvers: ['مدیر دپارتمان واحد درخواست دهنده', 'مدیر تامین گروه','مدیر مالی/بودجه','مدیر ارشد اجرایی ونچر (MD)'] },
-            { title: '۲ تا ۱۰ میلیارد ریال', approvers: ['مدیر دپارتمان واحد درخواست دهنده', 'مدیر تامین گروه','مدیر مالی/بودجه','مدیر ارشد اجرایی ونچر (MD)','مدیر عامل قانونی ونچر'] },
-            { title: '۱۰ تا ۱۰۰ میلیارد ریال', approvers: ['مدیر تامین گروه','مدیر مالی گروه/بودجه','مدیر ارشد اجرایی ونچر (MD)'] },
-            { title: 'بالای ۱۰۰ میلیارد ریال', approvers: ['مدیر تامین گروه','مدیر مالی گروه/بودجه','مدیر ارشد اجرایی ونچر (MD)','مدیر ارشد اجرایی گروه'] }
-        ];
+        // تنظیم عنوان مودال
+        modalTitle.textContent = ventureTitles[ventureName] || `${ventureName} - P2P Process`;
+        ventureNameTitle.textContent = ventureName;
+        groupNote.textContent = isGroupA ? 'گروه A' : 'گروه B';
 
-        // اسم تأییدکنندگان اختصاصی هر ونچر (مدیر دپارتمان خالی، مابقی پر)
-        const topApproversByVenture = {
-            // گروه A
-            'اسنپ کب': ['', 'امیررضا عطاری','جلال قارائی/سجاد صفری','محمد خلج قاسم آبادی','محمود فوز (CEO)/ محمد خلج قاسم آبادی'],
-            'اسنپ باکس': ['', 'امیررضا عطاری','جلال قارائی/معصومه بروزی','کسری صادقی زاده','دانیال نقوی (CEO)/ کسری صادقی زاده'],
-            'اسنپ فود': ['', 'نیما احسانی','عظیم عسکری','سعید لطفی','سعید لطفی (CEO)/ مهراد عبدالرزاق'],
-            'اسنپ شاپ': ['', 'امیررضا عطاری','سهیل فرهودی','امین سمیعی','امین سمیعی (CEO)/ سهیل فرهودی'],
-            'اسنپ کیچن': ['', 'امیررضا عطاری','نسرین شیرازی','کتایون شکوری','کتایون شکوری (CEO)/ آرمان وفاجو'],
-            'اسنپ مارکت': ['', 'امیررضا عطاری','امین عسکری','پویا رستگار','پویا رستگار (CEO)/ رامین لایقی'],
-            'اسنپ تریپ': ['', 'امیررضا عطاری','سهیل فرهودی','فرید یکانی','فرید یکانی (CEO)/ صبا مرتضوی'],
-            'اسنپ پی': ['', 'امیررضا عطاری','احسان رحمانی نیا/امیرحسین درخشانی','مجید حسامی','مجید حسامی(CEO)/ احمد کازرونی'],
-            'اسنپ اکسپرس': ['', 'امیررضا عطاری','امین عسکری','پویا رستگار','پویا رستگار(CEO)/رامین لایقی'],
+        // top approvers - اضافه کردن ventureName به پارامتر
+        const topNames = topApproversByVenture[ventureName] || ['', '', '', '', '', 'Kate Cully', 'Eyad / Mahmoud'];
+        renderTopApproversWithNames(topNames, ventureName); // اضافه شدن ventureName
 
-            // گروه B
-            'اسنپ استور': ['', 'امیررضا عطاری','فرناز هراتیان','نوید خدیوی',''],
-            'اسنپ دکتر': ['', 'امیررضا عطاری','فرناز هراتیان','نوید آئینه','محمدرضا ماهرنیا'],
-            'اسنپ ساپلای': ['', 'سینا احمدی','لیلا کامیابی','میلاد حسینی','زهرا جعفری'],
-            'اسنپ گروه': ['', 'امیررضا عطاری','فرناز هراتیان','جلال قارائی','Eyad/Mahmoud'],
-           
-        };
-
-        // ونچرهایی که باید "مدیر مالی/بودجه" داشته باشند
-        const BUDGET_MANAGER_VENTURES = ['اسنپ کب', 'اسنپ باکس', 'اسنپ پی'];
-
-        // داده‌های نمونه ایمیل استاندارد
-        const emailTemplates = {
-            'default': {
-                body: 'با سلام\n\nاین ایمیل جهت درخواست خرید برای [نام ونچر] ارسال می‌گردد.\n\nجزئیات درخواست:\n- کالا/خدمت: [نام کالا یا خدمت]\n- مشحصات فنی: [برند، مدل، پارت نامبر، رنگ و ...]\n-  لینک مربوط به کالا\n- مقدار: [مقدار]\n- مبلغ تخمینی: [مبلغ]\n\nدر صورت عدم موجودی مدل درخواستی، ندل پیشنهادی تیم تامین جهت بررسی درخواست اعلام گردد.\n\n----\n\nلطفاً این درخواست را بررسی و تأیید فرمایید.\n\nبا تشکر',
-                approvers: 'مدیر دپارتمان درخواست دهنده و پس از آن مدیر بودجه (درصورتی که آن ونچر مدیر بودجه داشته باشد)',
-                notes: 'با توجه به فلوچارت، باید اول درخواست برای مدیر دپارتمان ارسال شود.\nبعد از تایید مدیر دپارتمان و مدیر بودجه (در صورتی که آن ونچر مدیر بودجه داشته باشد)، ایمیل Procurement Team به ایمیل مربوطه اضافه شود تا فرایند خرید آغاز شود.\n\nایمیل تیم تامین:\nProcurementTeam@Snapp.Cab\n\nتوجه: خواهشمند است ایمیل ها در قالب استاندارد درخواست شده ارسال گردد تا در اسرع وقت پروسه خرید مطابق استاندارد آغاز شود.'            }
-        };
-
-        // داده‌های مناقصات
-        const tenderInfo = {
-            'groupA': {
-                threshold: 'بالای 4 میلیارد ریال',
-                process: 'برای خریدهای بالای 4 میلیارد ریال ریال، فرآیند مناقصه الزامی است. این فرآیند شامل:\n1. تهیه اسناد مناقصه(LOM) توسط واحد درخواست دهنده\n2. نهایی سازی LOM توسط واحد تامین (لزوم عقد قرارداد، تضامین و ...)\n3. بارگزاری اسناد مناقصه در سامانه مناقصات جهت اخذ استعلام\n4. اطلاع رسانی عمومی\n5. دریافت پیشنهاد ها\n6. ارزیابی فنی (در صورت نیاز) \n7. ارزیابی قیمتی\n8. انتخاب برنده\n9. اطلاع رسانی نتیجه مناقصه به تامین کننده و واحد درخواست دهنده\n\nمی‌باشد.',
-                conditions: 'مناقصه باید از لیست تامین کنندگان مورد تایید تیم تامین گروه باشد.'
-            },
-            'groupB': {
-                threshold: 'بالای 2 میلیارد ریال',
-                process: 'برای خریدهای بالای 2 میلیارد ریال، فرآیند مناقصه الزامی است. این فرآیند شامل:\n1. تهیه اسناد مناقصه(LOM) توسط واحد درخواست دهنده\n2. نهایی سازی LOM توسط واحد تامین (لزوم عقد قرارداد، تضامین و ...\n3. بارگزاری اسناد مناقصه در سامانه مناقصات جهت اخذ استعلام\n4. اطلاع رسانی عمومی\n5. دریافت پیشنهاد ها\n6. ارزیابی فنی (در صورت نیاز) \n7. ارزیابی قیمتی\n8. انتخاب برنده\n9. اطلاع رسانی نتیجه مناقصه به تامین کننده و واحد درخواست دهنده\n\nمی‌باشد.',
-                conditions: 'مناقصه میبایست از میان لیست تامین کنندگان مورد تایید تیم تامین مرکزی برگزار شود.'
-            }
-        };
-
-        // =================== مقداردهی اولیه ===================
-        const venturesGrid = document.getElementById('venturesGrid');
-        const ventureModal = document.getElementById('ventureModal');
-        const flowModal = document.getElementById('flowModal');
-        const closeBtns = document.querySelectorAll('.close-btn');
-        const flowCloseBtn = document.querySelector('.flow-close-btn');
-        const tabs = document.querySelectorAll('.tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        const modalTitle = document.getElementById('modalTitle');
-        const ventureNameTitle = document.getElementById('ventureNameTitle');
-        const approversList = document.getElementById('approversList');
-        const amountsSection = document.getElementById('amountsSection');
-        const groupNote = document.getElementById('groupNote');
-        const flowImage = document.getElementById('flowImage');
-        const viewFlowBtn = document.getElementById('viewFlowBtn');
-        const emailDetails = document.getElementById('emailDetails');
-        const tenderDetails = document.getElementById('tenderDetails');
-
-        // ایجاد کارت‌های ونچر با لوگو
-        function initializeVentureCards() {
-            const ventures = [
-                'اسنپ کب', 'اسنپ باکس', 'اسنپ فود', 'اسنپ شاپ', 
-                'اسنپ کیچن', 'اسنپ مارکت', 'اسنپ تریپ', 'اسنپ پی','اسنپ اکسپرس',
-                'اسنپ استور', 'اسنپ دکتر', 'اسنپ ساپلای', 'اسنپ گروه'
-            ];
-
-            ventures.forEach(venture => {
-                const card = document.createElement('div');
-                card.className = 'venture-card';
-                card.dataset.venture = venture;
-                
-                const logo = document.createElement('img');
-                logo.className = 'venture-logo';
-                logo.src = ventureLogos[venture];
-                logo.alt = venture;
-                logo.onerror = function() {
-                    this.style.display = 'none';
-                    const fallbackText = document.createElement('h3');
-                    fallbackText.textContent = venture;
-                    card.appendChild(fallbackText);
-                };
-                
-                const title = document.createElement('h3');
-                title.textContent = venture;
-                
-                card.appendChild(logo);
-                card.appendChild(title);
-                venturesGrid.appendChild(card);
-            });
+        // amount cards - استفاده از داده‌های مخصوص برای اسنپ گروپ
+        let amounts;
+        if (ventureName === 'اسنپ گروه') {
+            amounts = AMOUNTS_SNAPP_GROUP;
+        } else {
+            amounts = isGroupA ? AMOUNTS_A : AMOUNTS_B;
         }
+        renderAmounts(amounts, ventureName); // اضافه شدن ventureName
+        
+        // email template
+        const emailTemplate = emailTemplates[ventureName] || emailTemplates['default'];
+        renderEmailTemplate(emailTemplate, ventureCode, ventureName);
+        
+        // tender info
+        const tenderData = isGroupA ? tenderInfo['groupA'] : tenderInfo['groupB'];
+        renderTenderInfo(tenderData);
 
-        // مدیریت تب‌ها
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabId = tab.dataset.tab;
-                
-                // غیرفعال کردن همه تب‌ها
-                tabs.forEach(t => t.classList.remove('active'));
-                tabContents.forEach(content => content.classList.remove('active'));
-                
-                // فعال کردن تب انتخاب شده
+        // set flowchart src based on group
+        flowImage.src = isGroupA ? FLOWCHART_GROUP_A : FLOWCHART_GROUP_B;
+
+        ventureModal.style.display = 'block';
+        
+        // بازگشت به تب اول
+        tabs.forEach((tab, index) => {
+            if (index === 0) {
                 tab.classList.add('active');
-                document.getElementById(`${tabId}-tab`).classList.add('active');
-            });
-        });
-
-        // =================== انتخاب کارت و باز کردن Modal ===================
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.venture-card')) {
-                const card = e.target.closest('.venture-card');
-                const ventureName = card.dataset.venture;
-                const isGroupA = GROUP_A.includes(ventureName);
-                const ventureCode = ventureCodes[ventureName];
-
-                // تنظیم عنوان مودال
-                modalTitle.textContent = ventureTitles[ventureName] || `${ventureName} - P2P Process`;
-                ventureNameTitle.textContent = ventureName;
-                groupNote.textContent = isGroupA ? 'گروه A' : 'گروه B';
-
-                // top approvers
-                const topNames = topApproversByVenture[ventureName] || ['', '', '', '', ''];
-                renderTopApproversWithNames(topNames);
-
-                // amount cards
-                const amounts = isGroupA ? AMOUNTS_A : AMOUNTS_B;
-                renderAmounts(amounts);
-                
-                // email template
-                const emailTemplate = emailTemplates[ventureName] || emailTemplates['default'];
-                renderEmailTemplate(emailTemplate, ventureCode, ventureName);
-                
-                // tender info
-                const tenderData = isGroupA ? tenderInfo['groupA'] : tenderInfo['groupB'];
-                renderTenderInfo(tenderData);
-
-                // set flowchart src based on group
-                flowImage.src = isGroupA ? FLOWCHART_GROUP_A : FLOWCHART_GROUP_B;
-
-                ventureModal.style.display = 'block';
-                
-                // بازگشت به تب اول
-                tabs.forEach((tab, index) => {
-                    if (index === 0) {
-                        tab.classList.add('active');
-                        tabContents[index].classList.add('active');
-                    } else {
-                        tab.classList.remove('active');
-                        tabContents[index].classList.remove('active');
-                    }
-                });
+                tabContents[index].classList.add('active');
+            } else {
+                tab.classList.remove('active');
+                tabContents[index].classList.remove('active');
             }
         });
+    }
+});
+// مدیریت دکمه‌های بستن
+closeBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.closest('.modal').style.display = 'none';
+    });
+});
 
-        // مدیریت دکمه‌های بستن
-        closeBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                btn.closest('.modal').style.display = 'none';
-            });
-        });
+flowCloseBtn.addEventListener('click', () => {
+    flowModal.style.display = 'none';
+});
 
-        flowCloseBtn.addEventListener('click', () => {
-            flowModal.style.display = 'none';
-        });
+window.addEventListener('click', e => {
+    if(e.target === ventureModal) ventureModal.style.display='none';
+    if(e.target === flowModal) flowModal.style.display='none';
+});
 
-        window.addEventListener('click', e => {
-            if(e.target === ventureModal) ventureModal.style.display='none';
-            if(e.target === flowModal) flowModal.style.display='none';
-        });
+function clearChildren(el) { while(el.firstChild) el.removeChild(el.firstChild); }
 
-        function clearChildren(el) { while(el.firstChild) el.removeChild(el.firstChild); }
+// تابع جدید برای نمایش تأییدکنندگان با شماره‌گذاری
+// تابع جدید برای نمایش تأییدکنندگان با شماره‌گذاری
+function renderTopApproversWithNames(names, ventureName){
+    clearChildren(approversList);
+    APPROVER_ROLES.forEach((role,i)=>{
+        const li = document.createElement('li');
 
-        // تابع جدید برای نمایش تأییدکنندگان با شماره‌گذاری
-        function renderTopApproversWithNames(names){
-            clearChildren(approversList);
-            APPROVER_ROLES.forEach((role,i)=>{
-                const li = document.createElement('li');
+        const numberSpan = document.createElement('span');
+        numberSpan.className = 'approver-number';
+        numberSpan.textContent = i + 1;
 
-                const numberSpan = document.createElement('span');
-                numberSpan.className = 'approver-number';
-                numberSpan.textContent = i + 1;
-
-                const roleSpan = document.createElement('span');
-                roleSpan.className = 'approver-role';
-                // تنظیم عنوان مدیر مالی/بودجه برای ونچرهای خاص
-                if (role === 'مدیر مالی/بودجه') {
-                    const ventureName = document.querySelector('.venture-name-title').textContent;
-                    roleSpan.textContent = BUDGET_MANAGER_VENTURES.includes(ventureName) ? 'مدیر مالی/بودجه' : 'مدیر مالی';
-                } else {
-                    roleSpan.textContent = role;
-                }
-
-                const sep = document.createElement('span');
-                sep.className = 'approver-sep';
-                sep.textContent = ':';
-
-                const nameSpan = document.createElement('span');
-                nameSpan.className = 'approver-name';
-                nameSpan.textContent = names[i] || '';
-
-                li.appendChild(numberSpan);
-                li.appendChild(roleSpan);
-                li.appendChild(sep);
-                li.appendChild(nameSpan);
-
-                approversList.appendChild(li);
-            });
-        }
-
-        // تابع جدید برای نمایش سطوح تأیید با هدر و شماره‌گذاری
-        function renderAmounts(amounts){
-            clearChildren(amountsSection);
-            amounts.forEach((a, index)=>{
-                const card = document.createElement('div');
-                card.className = 'amount-card';
-                
-                // اضافه کردن هدر معاملات
-                const header = document.createElement('div');
-                header.className = 'amount-header';
-                header.textContent = TRANSACTION_HEADERS[index];
-                card.appendChild(header);
-
-                const h4 = document.createElement('h4');
-                h4.textContent = a.title;
-                card.appendChild(h4);
-
-                const ul = document.createElement('ul');
-                a.approvers.forEach((role, roleIndex)=>{
-                    const li = document.createElement('li');
-                    
-                    const numberSpan = document.createElement('span');
-                    numberSpan.className = 'level-number';
-                    numberSpan.textContent = roleIndex + 1;
-                    
-                    const roleSpan = document.createElement('span');
-                    // تنظیم عنوان مدیر مالی/بودجه برای ونچرهای خاص
-                    if (role === 'مدیر مالی/بودجه') {
-                        const ventureName = document.querySelector('.venture-name-title').textContent;
-                        roleSpan.textContent = BUDGET_MANAGER_VENTURES.includes(ventureName) ? 'مدیر مالی/بودجه' : 'مدیر مالی';
-                    } else {
-                        roleSpan.textContent = role;
-                    }
-                    
-                    li.appendChild(numberSpan);
-                    li.appendChild(roleSpan);
-                    ul.appendChild(li);
-                });
-                card.appendChild(ul);
-                amountsSection.appendChild(card);
-            });
-        }
+        const roleSpan = document.createElement('span');
+        roleSpan.className = 'approver-role';
         
-        // تابع نمایش نمونه ایمیل استاندارد
-        function renderEmailTemplate(emailTemplate, ventureCode, ventureName) {
-            clearChildren(emailDetails);
-            
-            const today = new Date();
-            const persianDate = today.toLocaleDateString('fa-IR').replace(/\//g, '');
-            
-            const prSubjectUrgent = `PR:${ventureCode}-IT-Tech-${persianDate}-Urgent`;
-            const prSubjectRegular = `PR:${ventureCode}-IT-Tech-${persianDate}-Regular`;
-            const benchmarkSubject = `BenchMark:${ventureCode}-IT-HR-${persianDate}-Regular`;
-            
-            // سابجکت ایمیل - PR فوری
-            const prSubjectUrgentField = document.createElement('div');
-            prSubjectUrgentField.className = 'email-field';
-            prSubjectUrgentField.innerHTML = `
-                <span class="field-label">سابجکت ایمیل (درخواست خرید فوری - PR):</span>
-                <div class="subject-example">${prSubjectUrgent}</div>
-                <div class="subject-explanation">
-                    <strong>معنی بخش‌های سابجکت:</strong><br>
-                    <span class="subject-part">PR</span>: درخواست خرید (Purchase Request)<br>
-                    <span class="subject-part">${ventureCode}</span>: کد ونچر (${ventureName})<br>
-                    <span class="subject-part">IT</span>: کتگوری کالا/خدمات<br>
-                    <span class="subject-part">Tech</span>: دپارتمان درخواست کننده<br>
-                    <span class="subject-part">${persianDate}</span>: تاریخ درخواست<br>
-                    <span class="subject-part">Urgent</span>: اولویت فوری (طی 3 روز کاری و در صورت موجود بودن در بازار داخلی)
-                </div>
-            `;
-            emailDetails.appendChild(prSubjectUrgentField);
-            
-            // سابجکت ایمیل - PR معمولی
-            const prSubjectRegularField = document.createElement('div');
-            prSubjectRegularField.className = 'email-field';
-            prSubjectRegularField.innerHTML = `
-                <span class="field-label">سابجکت ایمیل (درخواست خرید معمولی - PR):</span>
-                <div class="subject-example">${prSubjectRegular}</div>
-                <div class="subject-explanation">
-                    <strong>معنی بخش‌های سابجکت:</strong><br>
-                    <span class="subject-part">PR</span>: درخواست خرید (Purchase Request)<br>
-                    <span class="subject-part">${ventureCode}</span>: کد ونچر (${ventureName})<br>
-                    <span class="subject-part">IT</span>: کتگوری کالا/خدمت<br>
-                    <span class="subject-part">Tech</span>: دپارتمان درخواست کننده<br>
-                    <span class="subject-part">${persianDate}</span>: تاریخ درخواست<br>
-                    <span class="subject-part">Regular</span>: اولویت معمولی (طی 10 روز کاری)
-                </div>
-            `;
-            emailDetails.appendChild(prSubjectRegularField);
-            
-            // سابجکت ایمیل - BenchMark
-            const benchmarkSubjectField = document.createElement('div');
-            benchmarkSubjectField.className = 'email-field';
-            benchmarkSubjectField.innerHTML = `
-                <span class="field-label">سابجکت ایمیل (استعلام قیمت - BenchMark):</span>
-                <div class="subject-example">${benchmarkSubject}</div>
-                <div class="subject-explanation">
-                    <strong>معنی بخش‌های سابجکت:</strong><br>
-                    <span class="subject-part">BenchMark</span>: استعلام قیمت<br>
-                    <span class="subject-part">${ventureCode}</span>: کد ونچر (${ventureName})<br>
-                    <span class="subject-part">IT</span>: کتگوری کالا/خدمت<br>
-                    <span class="subject-part">HR</span>: دپارتمان درخواست کننده<br>
-                    <span class="subject-part">${persianDate}</span>: تاریخ درخواست<br>
-                    <span class="subject-part">Regular</span>: اولویت معمولی
-                </div>
-            `;
-            emailDetails.appendChild(benchmarkSubjectField);
-            
-            // توضیحات درباره انواع سابجکت
-            const subjectTypesField = document.createElement('div');
-            subjectTypesField.className = 'email-field';
-            subjectTypesField.innerHTML = `
-                <span class="field-label">انواع سابجکت و کاربرد آنها:</span>
-                <div class="field-content">
-                    <strong>PR (Purchase Request):</strong> برای درخواست خرید - هر ایمیلی که با این کلمه شروع شود به منزله درخواست خرید است<br>
-                    <strong>BenchMark:</strong> برای استعلام قیمت - واحد تامین سنترال برای کالاها یا خدمات درخواستی استعلام قیمت انجام می‌دهد<br><br>
-                    
-                    <strong>انواع درخواست (بخش دوم سابجکت):</strong><br>
-                    ${requestTypes.map(type => `• ${type}`).join('<br>')}<br><br>
-                    
-                    <strong>دپارتمان‌های درخواست کننده (بخش سوم سابجکت):</strong><br>
-                    ${departments.map(dept => `• ${dept}`).join('<br>')}<br><br>
-                    
-                    <strong>اولویت‌های درخواست (بخش آخر سابجکت):</strong><br>
-                    • <strong>Urgent</strong>: فوری - طی 3 روز کاری (در صورت موجود بودن کالا در بازار داخلی) انجام می‌شود<br>
-                    • <strong>Regular</strong>: معمولی - در صورت موجود بودن در بازار داخلی طی 10 روز کاری انجام می‌شود
-                </div>
-            `;
-            emailDetails.appendChild(subjectTypesField);
-            
-            // متن ایمیل
-            const bodyField = document.createElement('div');
-            bodyField.className = 'email-field';
-            bodyField.innerHTML = `
-                <span class="field-label">متن ایمیل:</span>
-                <div class="field-content" style="white-space: pre-line;">${emailTemplate.body.replace('[نام ونچر]', ventureName)}</div>
-            `;
-            emailDetails.appendChild(bodyField);
-            
-            // نفرات تایید کننده
-            const approversField = document.createElement('div');
-            approversField.className = 'email-field';
-            approversField.innerHTML = `
-                <span class="field-label">نفرات تایید کننده:</span>
-                <div class="field-content">${emailTemplate.approvers}</div>
-            `;
-            emailDetails.appendChild(approversField);
-            
-            // سایر توضیحات
-            const notesField = document.createElement('div');
-            notesField.className = 'email-field';
-            notesField.innerHTML = `
-                <span class="field-label">سایر توضیحات:</span>
-                <div class="field-content" style="white-space: pre-line;">${emailTemplate.notes}</div>
-            `;
-            emailDetails.appendChild(notesField);
+        // تنظیم عنوان مدیر تامین برای اسنپ فود
+        if (role === 'مدیر تامین گروه' && ventureName === 'اسنپ فود') {
+            roleSpan.textContent = 'مدیر تامین ونچر';
         }
+        // تنظیم عنوان مدیر مالی/بودجه برای ونچرهای خاص
+        else if (role === 'مدیر مالی/بودجه') {
+            roleSpan.textContent = BUDGET_MANAGER_VENTURES.includes(ventureName) ? 'مدیر مالی/بودجه' : 'مدیر مالی';
+        } else {
+            roleSpan.textContent = role;
+        }
+
+        const sep = document.createElement('span');
+        sep.className = 'approver-sep';
+        sep.textContent = ':';
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'approver-name';
+        nameSpan.textContent = names[i] || '';
+
+        li.appendChild(numberSpan);
+        li.appendChild(roleSpan);
+        li.appendChild(sep);
+        li.appendChild(nameSpan);
+
+        approversList.appendChild(li);
+    });
+}
+
+// تابع جدید برای نمایش سطوح تأیید با هدر و شماره‌گذاری
+function renderAmounts(amounts, ventureName){
+    clearChildren(amountsSection);
+    amounts.forEach((a, index)=>{
+        const card = document.createElement('div');
+        card.className = 'amount-card';
         
-        // تابع نمایش اطلاعات مناقصات
-        function renderTenderInfo(tenderData) {
-            clearChildren(tenderDetails);
+        // اضافه کردن هدر معاملات
+        const header = document.createElement('div');
+        header.className = 'amount-header';
+        header.textContent = TRANSACTION_HEADERS[index];
+        card.appendChild(header);
+
+        const h4 = document.createElement('h4');
+        h4.textContent = a.title;
+        card.appendChild(h4);
+
+        const ul = document.createElement('ul');
+        a.approvers.forEach((role, roleIndex)=>{
+            const li = document.createElement('li');
             
-            const thresholdField = document.createElement('div');
-            thresholdField.className = 'tender-field';
-            thresholdField.innerHTML = `
-                <span class="field-label">آستانه مبلغی برای مناقصه:</span>
-                <div class="field-content">${tenderData.threshold}</div>
-            `;
-            tenderDetails.appendChild(thresholdField);
+            const numberSpan = document.createElement('span');
+            numberSpan.className = 'level-number';
+            numberSpan.textContent = roleIndex + 1;
             
-            const processField = document.createElement('div');
-            processField.className = 'tender-field';
-            processField.innerHTML = `
-                <span class="field-label">فرآیند مناقصه:</span>
-                <div class="field-content" style="white-space: pre-line;">${tenderData.process}</div>
-            `;
-            tenderDetails.appendChild(processField);
+            const roleSpan = document.createElement('span');
             
-            const conditionsField = document.createElement('div');
-            conditionsField.className = 'tender-field';
-            conditionsField.innerHTML = `
-                <span class="field-label">شرایط و ضوابط:</span>
-                <div class="field-content" style="white-space: pre-line;">${tenderData.conditions}</div>
-            `;
-            tenderDetails.appendChild(conditionsField);
-        }
-
-        // =================== flow modal ===================
-        viewFlowBtn.addEventListener('click', () => { 
-            flowModal.style.display='block'; 
+            // تنظیم عنوان مدیر تامین برای اسنپ فود
+            if (role === 'مدیر تامین گروه' && ventureName === 'اسنپ فود') {
+                roleSpan.textContent = 'مدیر تامین ونچر';
+            }
+            // تنظیم عنوان مدیر مالی/بودجه برای ونچرهای خاص
+            else if (role === 'مدیر مالی/بودجه') {
+                roleSpan.textContent = BUDGET_MANAGER_VENTURES.includes(ventureName) ? 'مدیر مالی/بودجه' : 'مدیر مالی';
+            } else {
+                roleSpan.textContent = role;
+            }
+            
+            li.appendChild(numberSpan);
+            li.appendChild(roleSpan);
+            ul.appendChild(li);
         });
+        card.appendChild(ul);
+        amountsSection.appendChild(card);
+    });
+}
+// تابع نمایش نمونه ایمیل استاندارد
+function renderEmailTemplate(emailTemplate, ventureCode, ventureName) {
+    clearChildren(emailDetails);
+    
+    const today = new Date();
+    const persianDate = today.toLocaleDateString('fa-IR').replace(/\//g, '');
+    
+    const prSubjectUrgent = `PR:${ventureCode}-IT-Tech-${persianDate}-Urgent`;
+    const prSubjectRegular = `PR:${ventureCode}-IT-Tech-${persianDate}-Regular`;
+    const benchmarkSubject = `BenchMark:${ventureCode}-IT-HR-${persianDate}-Regular`;
+    
+    // سابجکت ایمیل - PR فوری
+    const prSubjectUrgentField = document.createElement('div');
+    prSubjectUrgentField.className = 'email-field';
+    prSubjectUrgentField.innerHTML = `
+        <span class="field-label">سابجکت ایمیل (درخواست خرید فوری - PR):</span>
+        <div class="subject-example">${prSubjectUrgent}</div>
+        <div class="subject-explanation">
+            <strong>معنی بخش‌های سابجکت:</strong><br>
+            <span class="subject-part">PR</span>: درخواست خرید (Purchase Request)<br>
+            <span class="subject-part">${ventureCode}</span>: کد ونچر (${ventureName})<br>
+            <span class="subject-part">IT</span>: کتگوری کالا/خدمات<br>
+            <span class="subject-part">Tech</span>: دپارتمان درخواست کننده<br>
+            <span class="subject-part">${persianDate}</span>: تاریخ درخواست<br>
+            <span class="subject-part">Urgent</span>: اولویت فوری (طی 3 روز کاری و در صورت موجود بودن در بازار داخلی)
+        </div>
+    `;
+    emailDetails.appendChild(prSubjectUrgentField);
+    
+    // سابجکت ایمیل - PR معمولی
+    const prSubjectRegularField = document.createElement('div');
+    prSubjectRegularField.className = 'email-field';
+    prSubjectRegularField.innerHTML = `
+        <span class="field-label">سابجکت ایمیل (درخواست خرید معمولی - PR):</span>
+        <div class="subject-example">${prSubjectRegular}</div>
+        <div class="subject-explanation">
+            <strong>معنی بخش‌های سابجکت:</strong><br>
+            <span class="subject-part">PR</span>: درخواست خرید (Purchase Request)<br>
+            <span class="subject-part">${ventureCode}</span>: کد ونچر (${ventureName})<br>
+            <span class="subject-part">IT</span>: کتگوری کالا/خدمت<br>
+            <span class="subject-part">Tech</span>: دپارتمان درخواست کننده<br>
+            <span class="subject-part">${persianDate}</span>: تاریخ درخواست<br>
+            <span class="subject-part">Regular</span>: اولویت معمولی (طی 10 روز کاری)
+        </div>
+    `;
+    emailDetails.appendChild(prSubjectRegularField);
+    
+    // سابجکت ایمیل - BenchMark
+    const benchmarkSubjectField = document.createElement('div');
+    benchmarkSubjectField.className = 'email-field';
+    benchmarkSubjectField.innerHTML = `
+        <span class="field-label">سابجکت ایمیل (استعلام قیمت - BenchMark):</span>
+        <div class="subject-example">${benchmarkSubject}</div>
+        <div class="subject-explanation">
+            <strong>معنی بخش‌های سابجکت:</strong><br>
+            <span class="subject-part">BenchMark</span>: استعلام قیمت<br>
+            <span class="subject-part">${ventureCode}</span>: کد ونچر (${ventureName})<br>
+            <span class="subject-part">IT</span>: کتگوری کالا/خدمت<br>
+            <span class="subject-part">HR</span>: دپارتمان درخواست کننده<br>
+            <span class="subject-part">${persianDate}</span>: تاریخ درخواست<br>
+            <span class="subject-part">Regular</span>: اولویت معمولی
+        </div>
+    `;
+    emailDetails.appendChild(benchmarkSubjectField);
+    
+    // توضیحات درباره انواع سابجکت
+    const subjectTypesField = document.createElement('div');
+    subjectTypesField.className = 'email-field';
+    subjectTypesField.innerHTML = `
+        <span class="field-label">انواع سابجکت و کاربرد آنها:</span>
+        <div class="field-content">
+            <strong>PR (Purchase Request):</strong> برای درخواست خرید - هر ایمیلی که با این کلمه شروع شود به منزله درخواست خرید است<br>
+            <strong>BenchMark:</strong> برای استعلام قیمت - واحد تامین سنترال برای کالاها یا خدمات درخواستی استعلام قیمت انجام می‌دهد<br><br>
+            
+            <strong>انواع درخواست (بخش دوم سابجکت):</strong><br>
+            ${requestTypes.map(type => `• ${type}`).join('<br>')}<br><br>
+            
+            <strong>دپارتمان‌های درخواست کننده (بخش سوم سابجکت):</strong><br>
+            ${departments.map(dept => `• ${dept}`).join('<br>')}<br><br>
+            
+            <strong>اولویت‌های درخواست (بخش آخر سابجکت):</strong><br>
+            • <strong>Urgent</strong>: فوری - طی 3 روز کاری (در صورت موجود بودن کالا در بازار داخلی) انجام می‌شود<br>
+            • <strong>Regular</strong>: معمولی - در صورت موجود بودن در بازار داخلی طی 10 روز کاری انجام می‌شود
+        </div>
+    `;
+    emailDetails.appendChild(subjectTypesField);
+    
+    // متن ایمیل
+    const bodyField = document.createElement('div');
+    bodyField.className = 'email-field';
+    bodyField.innerHTML = `
+        <span class="field-label">متن ایمیل:</span>
+        <div class="field-content" style="white-space: pre-line;">${emailTemplate.body.replace('[نام ونچر]', ventureName)}</div>
+    `;
+    emailDetails.appendChild(bodyField);
+    
+    // نفرات تایید کننده
+    const approversField = document.createElement('div');
+    approversField.className = 'email-field';
+    approversField.innerHTML = `
+        <span class="field-label">نفرات تایید کننده:</span>
+        <div class="field-content">${emailTemplate.approvers}</div>
+    `;
+    emailDetails.appendChild(approversField);
+    
+    // سایر توضیحات
+    const notesField = document.createElement('div');
+    notesField.className = 'email-field';
+    notesField.innerHTML = `
+        <span class="field-label">سایر توضیحات:</span>
+        <div class="field-content" style="white-space: pre-line;">${emailTemplate.notes}</div>
+    `;
+    emailDetails.appendChild(notesField);
+}
 
-        // zoom / pan
-        const zoomContainer = document.getElementById('zoomContainer');
-        let scale = 1;
-        flowImage.addEventListener('wheel', e=>{
-            e.preventDefault();
-            scale += e.deltaY * -0.001;
-            scale = Math.min(Math.max(0.2, scale), 3);
-            flowImage.style.transform = `scale(${scale})`;
-        });
-        flowImage.addEventListener('dblclick', ()=>{ scale=1; flowImage.style.transform=`scale(1)`; });
+// تابع نمایش اطلاعات مناقصات
+function renderTenderInfo(tenderData) {
+    clearChildren(tenderDetails);
+    
+    const thresholdField = document.createElement('div');
+    thresholdField.className = 'tender-field';
+    thresholdField.innerHTML = `
+        <span class="field-label">آستانه مبلغی برای مناقصه:</span>
+        <div class="field-content">${tenderData.threshold}</div>
+    `;
+    tenderDetails.appendChild(thresholdField);
+    
+    const processField = document.createElement('div');
+    processField.className = 'tender-field';
+    processField.innerHTML = `
+        <span class="field-label">فرآیند مناقصه:</span>
+        <div class="field-content" style="white-space: pre-line;">${tenderData.process}</div>
+    `;
+    tenderDetails.appendChild(processField);
+    
+    const conditionsField = document.createElement('div');
+    conditionsField.className = 'tender-field';
+    conditionsField.innerHTML = `
+        <span class="field-label">شرایط و ضوابط:</span>
+        <div class="field-content" style="white-space: pre-line;">${tenderData.conditions}</div>
+    `;
+    tenderDetails.appendChild(conditionsField);
+}
 
-        let isDragging=false, startX, startY, scrollLeft, scrollTop;
-        zoomContainer.addEventListener('mousedown', e=>{
-            isDragging=true; zoomContainer.style.cursor='grabbing';
-            startX=e.pageX - zoomContainer.offsetLeft;
-            startY=e.pageY - zoomContainer.offsetTop;
-            scrollLeft=zoomContainer.scrollLeft;
-            scrollTop=zoomContainer.scrollTop;
-        });
-        window.addEventListener('mouseup', ()=>{ isDragging=false; zoomContainer.style.cursor='grab'; });
-        zoomContainer.addEventListener('mousemove', e=>{
-            if(!isDragging) return;
-            e.preventDefault();
-            const x=e.pageX - zoomContainer.offsetLeft;
-            const y=e.pageY - zoomContainer.offsetTop;
-            const walkX = (x - startX);
-            const walkY = (y - startY);
-            zoomContainer.scrollLeft = scrollLeft - walkX;
-            zoomContainer.scrollTop = scrollTop - walkY;
-        });
+// =================== flow modal ===================
+viewFlowBtn.addEventListener('click', () => { 
+    flowModal.style.display='block'; 
+});
 
-        // مقداردهی اولیه
-        initializeVentureCards();
-    </script>
-</body>
+// zoom / pan
+const zoomContainer = document.getElementById('zoomContainer');
+let scale = 1;
+flowImage.addEventListener('wheel', e=>{
+    e.preventDefault();
+    scale += e.deltaY * -0.001;
+    scale = Math.min(Math.max(0.2, scale), 3);
+    flowImage.style.transform = `scale(${scale})`;
+});
+flowImage.addEventListener('dblclick', ()=>{ scale=1; flowImage.style.transform=`scale(1)`; });
+
+let isDragging=false, startX, startY, scrollLeft, scrollTop;
+zoomContainer.addEventListener('mousedown', e=>{
+    isDragging=true; zoomContainer.style.cursor='grabbing';
+    startX=e.pageX - zoomContainer.offsetLeft;
+    startY=e.pageY - zoomContainer.offsetTop;
+    scrollLeft=zoomContainer.scrollLeft;
+    scrollTop=zoomContainer.scrollTop;
+});
+window.addEventListener('mouseup', ()=>{ isDragging=false; zoomContainer.style.cursor='grab'; });
+zoomContainer.addEventListener('mousemove', e=>{
+    if(!isDragging) return;
+    e.preventDefault();
+    const x=e.pageX - zoomContainer.offsetLeft;
+    const y=e.pageY - zoomContainer.offsetTop;
+    const walkX = (x - startX);
+    const walkY = (y - startY);
+    zoomContainer.scrollLeft = scrollLeft - walkX;
+    zoomContainer.scrollTop = scrollTop - walkY;
+});
+
+// مقداردهی اولیه
+initializeVentureCards();
+</script>
+    </body>
 </html>
